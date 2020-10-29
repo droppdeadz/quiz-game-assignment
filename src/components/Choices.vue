@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div v-html="renderChoices(idx, correctChoicesKey, choices)"></div>
+    <div v-html="renderChoices(questionNumber, idx, correctChoicesKey, choices)"></div>
   </div>
 </template>
 
 <script>
   export default {
     name: 'Choices',
-    props: ['value', 'idx', 'correctChoicesKey', 'choices', 'correctChoices'],
+    props: ['value', 'questionNumber', 'idx', 'correctChoicesKey', 'choices', 'correctChoices'],
     methods: {
       uid(prefix) {
         if (typeof prefix == "undefined") prefix = "";
@@ -21,7 +21,7 @@
         );
       },
 
-      renderChoices(idx, correctIdx, data) {
+      renderChoices(questionNumber, idx, correctIdx, data) {
         let html = '';
         let swapChoices = Math.floor(Math.random() * Math.floor(2));
 
@@ -33,28 +33,28 @@
         let checked = '';
         let checkedCorrect = '';
 
-        if (currentAnswerList.includes(this.correctChoices)) {
+        if (currentAnswerList[questionNumber] == this.correctChoices) {
           checkedCorrect = 'checked';
         }
         
-        if (currentAnswerList.includes(data)) {
+        if (currentAnswerList[questionNumber] == data) {
           checked = 'checked';
         }
 
         if (idx == correctIdx) {
           if (swapChoices) {
-            html += '<input id="' + id_choices + '" type="radio" name="selectChoices" value="' + data + '" ' + checked + ' /><label for="' + id_choices + '" class="choices-container">' + data + '</label>';
-            html += '<input id="' + id_correct_choices + '" type="radio" name="selectChoices" value="' + this.correctChoices + '" ' + checkedCorrect + ' /><label for="' + id_correct_choices + '" class="choices-container">' + this.correctChoices + '</label>';
+            html += '<input id="' + id_choices + '" type="radio" name="selectChoices" value="' + data + '" ' + checked + ' /><label for="' + id_choices + '" class="choices-container">' + decodeURIComponent(data) + '</label>';
+            html += '<input id="' + id_correct_choices + '" type="radio" name="selectChoices" value="' + this.correctChoices + '" ' + checkedCorrect + ' /><label for="' + id_correct_choices + '" class="choices-container">' + decodeURIComponent(this.correctChoices) + '</label>';
           } else {
-            html += '<input id="' + id_correct_choices + '" type="radio" name="selectChoices" value="' + this.correctChoices + '" ' + checkedCorrect + ' /><label for="' + id_correct_choices + '" class="choices-container">' + this.correctChoices + '</label>';
-            html += '<input id="' + id_choices + '" type="radio" name="selectChoices" value="' + data + '" ' + checked + ' /><label for="' + id_choices + '" class="choices-container">' + data + '</label>';
+            html += '<input id="' + id_correct_choices + '" type="radio" name="selectChoices" value="' + this.correctChoices + '" ' + checkedCorrect + ' /><label for="' + id_correct_choices + '" class="choices-container">' + decodeURIComponent(this.correctChoices) + '</label>';
+            html += '<input id="' + id_choices + '" type="radio" name="selectChoices" value="' + data + '" ' + checked + ' /><label for="' + id_choices + '" class="choices-container">' + decodeURIComponent(data) + '</label>';
           }
         } else {
-          html += '<input id="' + id_choices + '" type="radio" name="selectChoices" value="' + data + '" ' + checked + ' /><label for="' + id_choices + '" class="choices-container">' + data + '</label>';
+          html += '<input id="' + id_choices + '" type="radio" name="selectChoices" value="' + data + '" ' + checked + ' /><label for="' + id_choices + '" class="choices-container">' + decodeURIComponent(data) + '</label>';
         }
 
         return html;
-      }
+      },
     },
   }
 </script>

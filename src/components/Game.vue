@@ -6,16 +6,16 @@
       </div>
       <div class="quiz-game-assignment-content-wrap" v-if="quizData">
         <div class="quiz-question">
-          <h4 v-html="quizData.question"></h4>
+          <h4 v-html="decodeURIComponent(quizData.question)"></h4>
         </div>
         <div class="quiz-choices-list-group" v-if="quizData.incorrect_answers">
           <div :key="'choices_' + idx" v-for="(choices, idx) in quizData.incorrect_answers">
-            <Choices ref="select_answer" :idx="idx" :correctChoicesKey="correctChoicesKey" :choices="choices" :correctChoices="quizData.correct_answer"></Choices>
+            <Choices :questionNumber="(parseInt($route.params.page) - 1)" :idx="idx" :correctChoicesKey="correctChoicesKey" :choices="choices" :correctChoices="quizData.correct_answer"></Choices>
           </div>
         </div>
       </div>
       <div class="quiz-game-assignment-button-wrap">
-        <md-button class="md-raised md-custom" @click="previousPages()" :disabled="this.$route.params.page == 1">
+        <md-button class="md-raised md-custom" @click="previousPages()" :disabled="$route.params.page == 1">
           <div class="align-items-center d-flex justify-content-center">
             <div class="btn-icon-animation-control left">
               <font-awesome-icon icon="arrow-left" />
@@ -47,7 +47,7 @@
     data() {
       return {
         currentQuizKey: (parseInt(this.$route.params.page) - 1),
-        quizList: this.$store.getters.quizList[0],
+        quizList: this.$store.getters.quizList,
         quizData: null,
         quizChoices: [],
         correctChoicesKey: Math.floor(Math.random() * Math.floor(3)),
@@ -75,11 +75,17 @@
       },
     },
     created() {
-      if (typeof this.quizList != 'undefined') {
-        this.quizData = this.quizList[this.currentQuizKey]
+      if (this.$store.getters.gameStatus == 'start') {
+        if (typeof this.quizList != 'undefined' && this.quizList.length) {
+          this.quizData = this.quizList[this.currentQuizKey]
+        } else {
+          this.$router.push({ path: '/'});
+        }
       } else {
         this.$router.push({ path: '/'});
       }
+
+      document.querySelector(':root').style.setProperty('--vh', window.innerHeight/100 + 'px');
     },
     updated() {
       this.currentQuizKey = (parseInt(this.$route.params.page) - 1)
@@ -95,7 +101,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 100vh;
+    // min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
   }
 
   .quiz-game-assignment-page-list {
@@ -126,8 +133,22 @@
     }
   }
 
-  .md-button.md-theme-default.md-raised.md-next {
-    // background-color: $color_primary !important;
-    // border-color: $color_primary !important;
+  @media (max-width: 767.98px) {
+    .quiz-game-assignment-page-list {
+
+      margin: {
+        top: 15px;
+        bottom: 15px;
+      }
+    }
+
+    .quiz-game-assignment-content-wrap {
+
+      .quiz-question {
+        margin: {
+          bottom: 15px;
+        }
+      }
+    }
   }
 </style>

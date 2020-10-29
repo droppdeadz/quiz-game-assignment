@@ -33,7 +33,7 @@
     "sass": "^1.27.0",
     "sass-loader": "^10.0.4",
     "vue-template-compiler": "^2.6.11",
-    "webpack": "^4.0.0"
+    "webpack": "^4.44.2"
   },
   "eslintConfig": {
     "root": true,
