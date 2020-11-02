@@ -105,13 +105,17 @@
         this.$store.dispatch("clearQuestion");
         this.$store.dispatch("clearAnswer");
 
-        axios.get('https://opentdb.com/api.php?amount=10&category=9&type=multiple')
+
+        axios.get('https://opentdb.com/api.php', {
+          params: this.$store.getters.quizParams
+        })
         .then((response) => {         
           this.$store.dispatch("pushQuestion", response.data.results);
         })
         .catch((error) => {
           console.log(error);
         }).then(() => {
+          this.$store.dispatch("gameStatusChange", 'start');
           this.$parent.loaders = false;
           this.$router.push({ path: '/game/1'})
         })
@@ -122,6 +126,7 @@
 
         this.$store.dispatch("clearQuestion");
         this.$store.dispatch("clearAnswer");
+        this.$store.dispatch("gameStatusChange", '');
 
         this.$parent.loaders = false;
         this.$router.push({ path: '/'})

@@ -80,13 +80,13 @@
             params: queryParams
           })
           .then((response) => {
-            this.$store.dispatch("gameStatusChange", 'start');
             this.$store.dispatch("pushQuestion", response.data.results);
             this.$store.dispatch("pushQueryParams", queryParams);
           })
           .catch((error) => {
             console.log(error);
           }).then(() => {
+            this.$store.dispatch("gameStatusChange", 'start');
             this.$parent.loaders = false;
             this.$router.push({
               path: '/game/1'
