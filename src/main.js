@@ -11,7 +11,7 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import VueMaterial from 'vue-material'
+import { MdButton } from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 
@@ -30,7 +30,7 @@ Vue.use(VueRouter)
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 
-Vue.use(VueMaterial)
+Vue.use(MdButton)
 
 Vue.use(VueAxios, axios)
 
