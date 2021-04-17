@@ -1,7 +1,7 @@
 <template>
   <div class="col-lg-6">
     <div class="quiz-game-assignment-title-wrap">
-      <h1>Quiz Game !</h1>
+      <h1>Quiz Game ! test</h1>
     </div>
     <form @submit.prevent="start()">
       <div>
